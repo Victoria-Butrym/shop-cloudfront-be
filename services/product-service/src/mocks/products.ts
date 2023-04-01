@@ -1,4 +1,6 @@
-[
+import { IProduct } from "src/interfaces/product.interface";
+
+export const PRODUCT_LIST: IProduct[] = [
   {
     "count": 4,
     "description": "Short Product Description1",
