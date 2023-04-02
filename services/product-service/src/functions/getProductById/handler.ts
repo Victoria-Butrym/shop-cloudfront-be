@@ -7,7 +7,7 @@ import schema from './schema';
 
 const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   const { productId } = event.pathParameters;
-  return formatJSONResponse({ product: await productService.getProductById(productId) });
+  return formatJSONResponse({ content: await productService.getProductById(productId) });
 }
 
 export const main = middyfy(getProductById);
