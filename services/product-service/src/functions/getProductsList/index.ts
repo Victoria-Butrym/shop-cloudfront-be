@@ -11,6 +11,9 @@ export default {
           200: {
             description: 'successful API response',
             bodyType: 'IProduct'
+          },
+          500: {
+            description: 'Internal server error!'
           }
         }
       },

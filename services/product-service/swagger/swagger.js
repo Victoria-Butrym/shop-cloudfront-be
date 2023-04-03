@@ -24,6 +24,9 @@
             "schema": {
               "$ref": "#/definitions/IProduct"
             }
+          },
+          "500": {
+            "description": "Internal server error!"
           }
         }
       }
@@ -53,6 +56,12 @@
             "schema": {
               "$ref": "#/definitions/IProduct"
             }
+          },
+          "404": {
+            "description": "Product not found!"
+          },
+          "500": {
+            "description": "Internal server error!"
           }
         }
       }
