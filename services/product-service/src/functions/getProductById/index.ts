@@ -7,6 +7,12 @@ export default {
       http: {
         method: 'get',
         path: 'products/{productId}',
+        responseData: {
+          200: {
+            description: 'successful API response',
+            bodyType: 'IProduct'
+          }
+        }
       },
     },
   ],
