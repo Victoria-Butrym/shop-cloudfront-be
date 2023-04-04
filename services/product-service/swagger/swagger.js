@@ -103,5 +103,6 @@
       "type": "object"
     }
   },
-  "securityDefinitions": {}
+  "securityDefinitions": {},
+  "host": "50tdgqcex4.execute-api.us-east-1.amazonaws.com/dev"
 };

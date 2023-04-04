@@ -27,6 +27,7 @@ const serverlessConfiguration: AWS = {
   custom: {
     autoswagger: {
       typefiles: ['./src/interfaces/product.interface.ts'],
+      host: '50tdgqcex4.execute-api.us-east-1.amazonaws.com/dev'
     },
     esbuild: {
       bundle: true,
