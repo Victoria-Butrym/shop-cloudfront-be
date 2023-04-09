@@ -1,10 +1,24 @@
-import { PRODUCT_LIST } from '../../mocks/products';
-import { IProduct } from '../../interfaces/product.interface';
+import * as AWS from 'aws-sdk';
 
-const getProductsList = (): Promise<IProduct[]> => Promise.resolve(PRODUCT_LIST);
+AWS.config.credentials = new AWS.SharedIniFileCredentials({
+    profile: "sandx",
+});
 
-const getProductById = (id: string): Promise<IProduct> =>
-    Promise.resolve(PRODUCT_LIST.find((product) => product.id === id) || null);
+const dynamo = new AWS.DynamoDB.DocumentClient();
+
+const getProductsList = async () => dynamo
+    .scan({
+        TableName: 'productsTable'
+    })
+    .promise();
+
+const getProductById = (id: string) => dynamo
+    .query({
+        TableName: 'productsTable',
+        KeyConditionExpression: "id = :id",
+        ExpressionAttributeValues: { ":id": id },
+    })
+    .promise();
 
 export default {
     getProductsList,

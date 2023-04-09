@@ -101,6 +101,90 @@
       "additionalProperties": false,
       "title": "IProduct",
       "type": "object"
+    },
+    "IProductDB": {
+      "properties": {
+        "TableName": {
+          "title": "IProductDB.TableName",
+          "type": "string"
+        },
+        "Item": {
+          "properties": {
+            "id": {
+              "properties": {
+                "S": {
+                  "title": "IProductDB.Item.id.S",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "S"
+              ],
+              "additionalProperties": false,
+              "title": "IProductDB.Item.id",
+              "type": "object"
+            },
+            "title": {
+              "properties": {
+                "S": {
+                  "title": "IProductDB.Item.title.S",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "S"
+              ],
+              "additionalProperties": false,
+              "title": "IProductDB.Item.title",
+              "type": "object"
+            },
+            "price": {
+              "properties": {
+                "N": {
+                  "title": "IProductDB.Item.price.N",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "N"
+              ],
+              "additionalProperties": false,
+              "title": "IProductDB.Item.price",
+              "type": "object"
+            },
+            "description": {
+              "properties": {
+                "S": {
+                  "title": "IProductDB.Item.description.S",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "S"
+              ],
+              "additionalProperties": false,
+              "title": "IProductDB.Item.description",
+              "type": "object"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "price",
+            "description"
+          ],
+          "additionalProperties": false,
+          "title": "IProductDB.Item",
+          "type": "object"
+        }
+      },
+      "required": [
+        "TableName",
+        "Item"
+      ],
+      "additionalProperties": false,
+      "title": "IProductDB",
+      "type": "object"
     }
   },
   "securityDefinitions": {},
