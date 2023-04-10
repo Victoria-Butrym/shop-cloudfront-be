@@ -6,7 +6,7 @@ const getProductsList = async () => {
     return (await productsDB.getProductsList()).Items.map((stock) => unmarshall((stock) as Record<any, any>));
 };
 
-const getProductById = async (id: string)=> await productsDB.getProductById(id);
+const getProductById = async (id: string)=> (await productsDB.getProductById(id)).Items[0];
 
 export default {
     getProductsList,

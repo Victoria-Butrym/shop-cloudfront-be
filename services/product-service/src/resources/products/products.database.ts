@@ -1,6 +1,7 @@
 import * as AWS from 'aws-sdk';
 
-const dynamo = new AWS.DynamoDB({ region: "us-east-1" })
+const dynamo = new AWS.DynamoDB();
+const dynamoClient = new AWS.DynamoDB.DocumentClient();
 
 const getProductsList = async () => await dynamo
     .scan({
@@ -8,15 +9,13 @@ const getProductsList = async () => await dynamo
     })
     .promise();
 
-// const getProductById = async (id: string) => await dynamo
-//     .query({
-//         TableName: `${process.env.DB_PRODUCTS_TABLE}`,
-//         KeyConditionExpression: "id = :id",
-//         ExpressionAttributeValues: { ":id": id },
-//     })
-//     .promise();
-
-const getProductById = async (id: string) => {};
+const getProductById = async (id: string) => await dynamoClient
+    .query({
+        TableName: `${process.env.DB_PRODUCTS_TABLE}`,
+        KeyConditionExpression: "id = :id",
+        ExpressionAttributeValues: { ":id": id },
+    })
+    .promise();
 
 export default {
     getProductsList,
