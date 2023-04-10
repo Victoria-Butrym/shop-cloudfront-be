@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 
-const dynamo = new AWS.DynamoDB({ region: "us-east-1" })
+const dynamo = new AWS.DynamoDB()
 
 const getStocksList = async() => await dynamo
     .scan({

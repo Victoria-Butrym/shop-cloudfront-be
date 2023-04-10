@@ -17,7 +17,21 @@ const getProductById = async (id: string) => await dynamoClient
     })
     .promise();
 
+const createProduct = async (product, stock) => dynamoClient
+    .transactWrite({
+        TransactItems: [
+            {
+                Put: { TableName: `${process.env.DB_PRODUCTS_TABLE}`, Item: product },
+            },
+            {
+                Put: { TableName: `${process.env.DB_STOCKS_TABLE}`, Item: stock },
+            },
+        ],
+    })
+    .promise();
+
 export default {
     getProductsList,
-    getProductById
+    getProductById,
+    createProduct
 }
