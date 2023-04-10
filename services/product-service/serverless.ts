@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 
 import getProductsList from '@functions/getProductsList';
 import getProductById from '@functions/getProductById';
+import createProduct from '@functions/createProduct';
 
 
 dotenv.config();
@@ -30,19 +31,33 @@ const serverlessConfiguration: AWS = {
       role: {
         statements: [
           {
-            Effect: "Allow",
-            Action: ["dynamodb:*", "rds:*"],
-            Resource: [
-              "arn:aws:dynamodb:us-east-1:149435355961:table/productsTable",
-              "arn:aws:dynamodb:us-east-1:149435355961:table/stock"
+            Effect: 'Allow',
+            Action: [
+              "dynamodb:BatchGetItem",
+              "dynamodb:BatchWriteItem",
+              "dynamodb:DeleteItem",
+              "dynamodb:GetItem",
+              "dynamodb:PutItem",
+              "dynamodb:Query",
+              "dynamodb:UpdateItem",
+              "dynamodb:Scan",
+              "dynamodb:DescribeTable"
             ],
+            Resource: "arn:aws:dynamodb:us-east-1:149435355961:table/productsTable"
           },
-        ],
-      },
-    },
+          {
+            Effect: 'Allow',
+            Action: [
+              "dynamodb:*"
+            ],
+            Resource: "arn:aws:dynamodb:us-east-1:149435355961:table/stock"
+          }
+        ]
+      }
+    }
   },
   // import the function via paths
-  functions: { getProductsList, getProductById },
+  functions: { getProductsList, getProductById, createProduct },
   package: { individually: true },
   custom: {
     autoswagger: {

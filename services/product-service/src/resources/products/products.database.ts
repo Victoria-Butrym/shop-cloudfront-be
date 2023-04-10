@@ -1,24 +1,22 @@
 import * as AWS from 'aws-sdk';
 
-AWS.config.credentials = new AWS.SharedIniFileCredentials({
-    profile: "sandx",
-});
+const dynamo = new AWS.DynamoDB({ region: "us-east-1" })
 
-const dynamo = new AWS.DynamoDB.DocumentClient();
-
-const getProductsList = async () => dynamo
+const getProductsList = async () => await dynamo
     .scan({
-        TableName: 'productsTable'
+        TableName: `${process.env.DB_PRODUCTS_TABLE}`
     })
     .promise();
 
-const getProductById = (id: string) => dynamo
-    .query({
-        TableName: 'productsTable',
-        KeyConditionExpression: "id = :id",
-        ExpressionAttributeValues: { ":id": id },
-    })
-    .promise();
+// const getProductById = async (id: string) => await dynamo
+//     .query({
+//         TableName: `${process.env.DB_PRODUCTS_TABLE}`,
+//         KeyConditionExpression: "id = :id",
+//         ExpressionAttributeValues: { ":id": id },
+//     })
+//     .promise();
+
+const getProductById = async (id: string) => {};
 
 export default {
     getProductsList,

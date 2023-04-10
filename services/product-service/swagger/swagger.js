@@ -29,6 +29,32 @@
             "description": "Internal server error!"
           }
         }
+      },
+      "post": {
+        "summary": "createProduct",
+        "description": "",
+        "operationId": "createProduct.post.products",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Product Created",
+            "schema": {
+              "$ref": "#/definitions/IProduct"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
       }
     },
     "/products/{productId}": {
