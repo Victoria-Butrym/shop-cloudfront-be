@@ -1,4 +1,5 @@
 import * as AWS from 'aws-sdk';
+import { IProduct, IStock } from 'src/interfaces/product.interface';
 
 const dynamo = new AWS.DynamoDB();
 const dynamoClient = new AWS.DynamoDB.DocumentClient();
@@ -17,7 +18,7 @@ const getProductById = async (id: string) => await dynamoClient
     })
     .promise();
 
-const createProduct = async (product, stock) => dynamoClient
+const createProduct = async (product: IProduct, stock: IStock) => dynamoClient
     .transactWrite({
         TransactItems: [
             {

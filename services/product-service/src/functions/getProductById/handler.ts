@@ -6,18 +6,24 @@ import productService from '../../resources/products/products.service';
 
 import schema from './schema';
 import { notFoundResponse, internalServerErrorResponse } from '../../libs/api-gateway';
+import logger from '../../utils/logger.utils';
 
 const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   try {
     const { productId } = event.pathParameters;
     const product = await productService.getProductById(productId);
 
-    return product
-      ? formatJSONResponse(product)
-      : notFoundResponse();
+    if (product) {
+      logger.log(event.requestContext);
+      return formatJSONResponse({product});
+    } else {
+      logger.log(event.requestContext, 404);
+      return notFoundResponse();
+    };
     
   } catch (error) {
-      internalServerErrorResponse();
+      logger.log(event.requestContext, 500);
+      return internalServerErrorResponse();
   }
 }
 

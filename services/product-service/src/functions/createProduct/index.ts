@@ -10,7 +10,7 @@ export default {
         responseData: {
           200: {
             description: 'Product Created',
-            bodyType: 'IProduct'
+            bodyType: 'IProductStock'
           },
           400: {
             description: 'Bad Request',

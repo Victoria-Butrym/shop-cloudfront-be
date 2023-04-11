@@ -33,15 +33,7 @@ const serverlessConfiguration: AWS = {
           {
             Effect: 'Allow',
             Action: [
-              "dynamodb:BatchGetItem",
-              "dynamodb:BatchWriteItem",
-              "dynamodb:DeleteItem",
-              "dynamodb:GetItem",
-              "dynamodb:PutItem",
-              "dynamodb:Query",
-              "dynamodb:UpdateItem",
-              "dynamodb:Scan",
-              "dynamodb:DescribeTable"
+              "dynamodb:*"
             ],
             Resource: "arn:aws:dynamodb:us-east-1:149435355961:table/productsTable"
           },

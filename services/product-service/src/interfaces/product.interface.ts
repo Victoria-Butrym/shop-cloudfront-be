@@ -1,17 +1,15 @@
 export interface IProduct {
-    count: number;
     title: string;
     description: string;
     id: string;
     price: number;
 }
 
-export type IProductDB = {
-    TableName: string;
-    Item: {
-        id: { S: string },
-        title: { S: string },
-        price: { N: number },
-        description: { S: string },
-    },
+export interface IStock {
+    product_id: string;
+    count: number;
+}
+
+export interface IProductStock extends IProduct {
+    count: number
 }

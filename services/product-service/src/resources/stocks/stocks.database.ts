@@ -1,8 +1,8 @@
 import * as AWS from 'aws-sdk';
 
-const dynamo = new AWS.DynamoDB()
+const dynamo = new AWS.DynamoDB();
 
-const getStocksList = async() => await dynamo
+const getStocksList = async () => await dynamo
     .scan({
         TableName: `${process.env.DB_STOCKS_TABLE}`
     })
@@ -10,5 +10,5 @@ const getStocksList = async() => await dynamo
 
 
 export default {
-    getStocksList,
+    getStocksList
 }

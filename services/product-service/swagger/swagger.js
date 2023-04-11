@@ -20,9 +20,9 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "successful API response",
+            "description": "Successful API response",
             "schema": {
-              "$ref": "#/definitions/IProduct"
+              "$ref": "#/definitions/IProductStock[]"
             }
           },
           "500": {
@@ -45,7 +45,7 @@
           "200": {
             "description": "Product Created",
             "schema": {
-              "$ref": "#/definitions/IProduct"
+              "$ref": "#/definitions/IProductStock"
             }
           },
           "400": {
@@ -78,7 +78,7 @@
         ],
         "responses": {
           "200": {
-            "description": "successful API response",
+            "description": "Successful API response",
             "schema": {
               "$ref": "#/definitions/IProduct"
             }
@@ -96,10 +96,6 @@
   "definitions": {
     "IProduct": {
       "properties": {
-        "count": {
-          "title": "IProduct.count",
-          "type": "number"
-        },
         "title": {
           "title": "IProduct.title",
           "type": "string"
@@ -118,7 +114,6 @@
         }
       },
       "required": [
-        "count",
         "title",
         "description",
         "id",
@@ -128,88 +123,37 @@
       "title": "IProduct",
       "type": "object"
     },
-    "IProductDB": {
+    "IStock": {
       "properties": {
-        "TableName": {
-          "title": "IProductDB.TableName",
+        "product_id": {
+          "title": "IStock.product_id",
           "type": "string"
         },
-        "Item": {
-          "properties": {
-            "id": {
-              "properties": {
-                "S": {
-                  "title": "IProductDB.Item.id.S",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "S"
-              ],
-              "additionalProperties": false,
-              "title": "IProductDB.Item.id",
-              "type": "object"
-            },
-            "title": {
-              "properties": {
-                "S": {
-                  "title": "IProductDB.Item.title.S",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "S"
-              ],
-              "additionalProperties": false,
-              "title": "IProductDB.Item.title",
-              "type": "object"
-            },
-            "price": {
-              "properties": {
-                "N": {
-                  "title": "IProductDB.Item.price.N",
-                  "type": "number"
-                }
-              },
-              "required": [
-                "N"
-              ],
-              "additionalProperties": false,
-              "title": "IProductDB.Item.price",
-              "type": "object"
-            },
-            "description": {
-              "properties": {
-                "S": {
-                  "title": "IProductDB.Item.description.S",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "S"
-              ],
-              "additionalProperties": false,
-              "title": "IProductDB.Item.description",
-              "type": "object"
-            }
-          },
-          "required": [
-            "id",
-            "title",
-            "price",
-            "description"
-          ],
-          "additionalProperties": false,
-          "title": "IProductDB.Item",
-          "type": "object"
+        "count": {
+          "title": "IStock.count",
+          "type": "number"
         }
       },
       "required": [
-        "TableName",
-        "Item"
+        "product_id",
+        "count"
       ],
       "additionalProperties": false,
-      "title": "IProductDB",
+      "title": "IStock",
+      "type": "object"
+    },
+    "IProductStock": {
+      "properties": {
+        "count": {
+          "title": "IProductStock.count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "count"
+      ],
+      "additionalProperties": false,
+      "title": "IProductStock",
       "type": "object"
     }
   },
