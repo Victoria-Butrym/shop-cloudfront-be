@@ -20,10 +20,36 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "successful API response",
+            "description": "Successful API response",
             "schema": {
-              "$ref": "#/definitions/IProduct"
+              "$ref": "#/definitions/IProductStock"
             }
+          },
+          "500": {
+            "description": "Internal server error!"
+          }
+        }
+      },
+      "post": {
+        "summary": "createProduct",
+        "description": "",
+        "operationId": "createProduct.post.products",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Product Created",
+            "schema": {
+              "$ref": "#/definitions/IProductStock"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal server error!"
@@ -52,7 +78,7 @@
         ],
         "responses": {
           "200": {
-            "description": "successful API response",
+            "description": "Successful API response",
             "schema": {
               "$ref": "#/definitions/IProduct"
             }
@@ -70,10 +96,6 @@
   "definitions": {
     "IProduct": {
       "properties": {
-        "count": {
-          "title": "IProduct.count",
-          "type": "number"
-        },
         "title": {
           "title": "IProduct.title",
           "type": "string"
@@ -92,7 +114,6 @@
         }
       },
       "required": [
-        "count",
         "title",
         "description",
         "id",
@@ -100,6 +121,59 @@
       ],
       "additionalProperties": false,
       "title": "IProduct",
+      "type": "object"
+    },
+    "IStock": {
+      "properties": {
+        "product_id": {
+          "title": "IStock.product_id",
+          "type": "string"
+        },
+        "count": {
+          "title": "IStock.count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "product_id",
+        "count"
+      ],
+      "additionalProperties": false,
+      "title": "IStock",
+      "type": "object"
+    },
+    "IProductStock": {
+      "properties": {
+        "title": {
+          "title": "IProductStock.title",
+          "type": "string"
+        },
+        "description": {
+          "title": "IProductStock.description",
+          "type": "string"
+        },
+        "id": {
+          "title": "IProductStock.id",
+          "type": "string"
+        },
+        "price": {
+          "title": "IProductStock.price",
+          "type": "number"
+        },
+        "count": {
+          "title": "IProductStock.count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "id",
+        "price",
+        "count"
+      ],
+      "additionalProperties": false,
+      "title": "IProductStock",
       "type": "object"
     }
   },

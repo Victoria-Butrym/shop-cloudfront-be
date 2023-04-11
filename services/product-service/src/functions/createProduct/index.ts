@@ -5,12 +5,15 @@ export default {
   events: [
     {
       http: {
-        method: 'get',
+        method: 'post',
         path: 'products',
         responseData: {
           200: {
-            description: 'Successful API response',
+            description: 'Product Created',
             bodyType: 'IProductStock'
+          },
+          400: {
+            description: 'Bad Request',
           },
           500: {
             description: 'Internal server error!'
