@@ -10,7 +10,7 @@ export default {
         responseData: {
           200: {
             description: 'Successful API response',
-            bodyType: 'IProductStock[]'
+            bodyType: 'IProductStock'
           },
           500: {
             description: 'Internal server error!'

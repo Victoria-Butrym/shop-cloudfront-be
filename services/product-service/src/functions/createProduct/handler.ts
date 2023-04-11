@@ -1,10 +1,7 @@
-// import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 import productService from '../../resources/products/products.service';
 import { v4 } from 'uuid';
-
-// import schema from './schema';
 import { APIGatewayEvent } from 'aws-lambda';
 import { badRequestResponse, internalServerErrorResponse } from '../../libs/api-gateway';
 import { IStock } from 'src/interfaces/product.interface';
@@ -41,7 +38,7 @@ const createProduct = async (event: APIGatewayEvent) => {
     return formatJSONResponse({ product, stock });
     
   } catch (error) {
-    logger.log(event.requestContext, 500);
+    logger.log(event.requestContext, 500, error.message);
     return internalServerErrorResponse();
   }
 }

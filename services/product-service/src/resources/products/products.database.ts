@@ -18,7 +18,7 @@ const getProductById = async (id: string) => await dynamoClient
     })
     .promise();
 
-const createProduct = async (product: IProduct, stock: IStock) => dynamoClient
+const createProduct = async (product: IProduct, stock: IStock) => await dynamoClient
     .transactWrite({
         TransactItems: [
             {

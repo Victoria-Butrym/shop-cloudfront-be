@@ -1,4 +1,3 @@
-// import { IProduct } from 'src/interfaces/product.interface';
 import productsDB from './products.database';
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 import { IProduct, IProductStock, IStock } from 'src/interfaces/product.interface';

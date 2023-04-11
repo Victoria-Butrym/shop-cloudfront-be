@@ -16,7 +16,7 @@ const getProductsList: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async
 
     return formatJSONResponse(productService.joinProductAndStockList(productsList, stocksList));
   } catch (error) {
-    logger.log(event.requestContext, 500);
+    logger.log(event.requestContext, 500, error.message);
     return internalServerErrorResponse();
   }
 }

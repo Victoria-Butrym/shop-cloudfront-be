@@ -22,7 +22,7 @@
           "200": {
             "description": "Successful API response",
             "schema": {
-              "$ref": "#/definitions/IProductStock[]"
+              "$ref": "#/definitions/IProductStock"
             }
           },
           "500": {
@@ -144,12 +144,32 @@
     },
     "IProductStock": {
       "properties": {
+        "title": {
+          "title": "IProductStock.title",
+          "type": "string"
+        },
+        "description": {
+          "title": "IProductStock.description",
+          "type": "string"
+        },
+        "id": {
+          "title": "IProductStock.id",
+          "type": "string"
+        },
+        "price": {
+          "title": "IProductStock.price",
+          "type": "number"
+        },
         "count": {
           "title": "IProductStock.count",
           "type": "number"
         }
       },
       "required": [
+        "title",
+        "description",
+        "id",
+        "price",
         "count"
       ],
       "additionalProperties": false,

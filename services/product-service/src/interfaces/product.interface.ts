@@ -10,6 +10,10 @@ export interface IStock {
     count: number;
 }
 
-export interface IProductStock extends IProduct {
-    count: number
+export interface IProductStock {
+    title: string;
+    description: string;
+    id: string;
+    price: number;
+    count: number;
 }
