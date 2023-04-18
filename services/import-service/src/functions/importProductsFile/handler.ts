@@ -2,25 +2,23 @@ import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 
-import { S3 } from 'aws-sdk';
-
 import schema from './schema';
+import { customErrorResponse, internalServerErrorResponse } from '../../libs/api-gateway';
+import s3Repository from 'src/resources/s3.repository';
 
 const importProductsFile: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
-  const s3Params = { region: `${process.env.S3_REGION}` };
-  const s3 = new S3(s3Params);
+  try {
+    const csvFileName = event.queryStringParameters.name;
+    const bucketName = `${process.env.S3_IMPORT_CSV}`;
 
-  const csvFileName = event.queryStringParameters?.name || "test.csv";
+    if (!csvFileName) return customErrorResponse({ error: { message: 'query param [name] must be specified' } }, 404);
 
-  const params = {
-    Bucket: `${process.env.S3_IMPORT_CSV}`,
-    Key: `uploaded/${csvFileName}`,
-    ContentType: 'text/csv'
+    const preassignedUrl = await s3Repository.getSignedUrl(`uploaded/${csvFileName}`, bucketName);
+
+    return formatJSONResponse({ preassignedUrl });
+  } catch (error) {
+    return internalServerErrorResponse();
   }
-
-  const url = s3.getSignedUrl("putObject", params);
-
-  return formatJSONResponse({ preassignedUrl: url });
 };
 
 export const main = middyfy(importProductsFile);

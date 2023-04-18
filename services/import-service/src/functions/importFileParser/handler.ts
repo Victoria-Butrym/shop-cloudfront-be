@@ -1,63 +1,32 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { formatJSONResponse } from '@libs/api-gateway';
-
-const csv = require("csv-parser");
-
-import { S3 } from 'aws-sdk';
+import logger from '../../utils/logger.utils';
 
 import schema from './schema';
+import { internalServerErrorResponse } from '../../libs/api-gateway';
+import s3Service from 'src/resources/s3.service';
 
 const importFileParser: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
-  const s3Params = { region: `${process.env.S3_REGION}` };
-  const s3 = new S3(s3Params);
+  try {
+    logger.log('---file parser log---')
+    const bucketName = `${process.env.S3_IMPORT_CSV}`;
+    const key = (event as any).Records[0].s3.object.key;
 
-  console.log('---file parser log---');
+    logger.log('--- KEY ---', key);
 
-  const key = (event as any).Records[0].s3.object.key
+    const file = await s3Service.getObject(key, bucketName);
 
-  console.log('--- KEY ---', key);
-  console.log('--- EVENT ---', event);
+    logger.log('--- file chunks ---', file)
 
-  const objectParams = {
-    Bucket: `${process.env.S3_IMPORT_CSV}`,
-    Key: key,
+    await s3Service.copyObject(key, bucketName, 'uploaded/', 'parsed/');
+    await s3Service.deleteObject(key, bucketName);
+
+    return formatJSONResponse({ message: 'succeed' });
+    
+  } catch (error) {
+    return internalServerErrorResponse();
   }
-
-  const readStream = s3.getObject(objectParams).createReadStream();
-
-  const streamChunks = [];
-
-  const file = await new Promise((resolve, reject) => {
-    readStream
-      .pipe(csv())
-      .on("data", function (data: any) {
-        streamChunks.push(data);
-      })
-      .on("end", function () {
-        resolve(streamChunks);
-      })
-      .on("error", function () {
-        reject("error processing csv file");
-      });
-  });
-
-  console.log('--- file chunks ---', file)
-
-  await s3.copyObject({
-        Bucket: `${process.env.S3_IMPORT_CSV}`,
-        CopySource: `${process.env.S3_IMPORT_CSV}/${key}`,
-        Key: key.replace("uploaded/", "parsed/"),
-      })
-      .promise();
-
-  await s3.deleteObject({
-      Bucket: `${process.env.S3_IMPORT_CSV}`,
-      Key: key,
-    })
-    .promise();
-
-  return formatJSONResponse({ message: 'yessss' });
 };
 
-// export const main = middyfy(importFileParser);
+// export const main = middyfy(importFileParser); check content-type error
 export const main = importFileParser;
