@@ -25,10 +25,17 @@ const serverlessConfiguration: AWS = {
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       S3_REGION: `${process.env.S3_REGION}`,
       S3_IMPORT_CSV: `${process.env.S3_IMPORT_CSV}`,
+      SQS_PRODUCT_QUEUE: `${process.env.SQS_PRODUCT_QUEUE}`,
+      SQS_REGION: `${process.env.SQS_REGION}`
     },
     iam: {
       role: {
         statements: [
+          {
+            Effect: "Allow",
+            Action: "sqs:*",
+            Resource: "arn:aws:sqs:us-east-1:149435355961:catalogItemsQueue"
+          },
           {
             Effect: 'Allow',
             Action: [

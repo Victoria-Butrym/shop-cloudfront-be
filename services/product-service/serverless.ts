@@ -4,6 +4,8 @@ import * as dotenv from "dotenv";
 import getProductsList from '@functions/getProductsList';
 import getProductById from '@functions/getProductById';
 import createProduct from '@functions/createProduct';
+import catalogBatchProcess from '@functions/catalogBatchProcess';
+
 
 
 dotenv.config();
@@ -31,6 +33,11 @@ const serverlessConfiguration: AWS = {
       role: {
         statements: [
           {
+            Effect: "Allow",
+            Action: "sqs:*",
+            Resource: "arn:aws:sqs:us-east-1:149435355961:catalogItemsQueue"
+          },
+          {
             Effect: 'Allow',
             Action: [
               "dynamodb:*"
@@ -49,7 +56,7 @@ const serverlessConfiguration: AWS = {
     }
   },
   // import the function via paths
-  functions: { getProductsList, getProductById, createProduct },
+  functions: { getProductsList, getProductById, createProduct, catalogBatchProcess },
   package: { individually: true },
   custom: {
     autoswagger: {
@@ -69,6 +76,12 @@ const serverlessConfiguration: AWS = {
   },
   resources: {
     Resources: {
+      catalogItemsQueue: {
+        Type: "AWS::SQS::Queue",
+        Properties: {
+          QueueName: 'catalogItemsQueue'
+        }
+      },
       productsTable: {
         Type: "AWS::DynamoDB::Table",
         Properties: {
