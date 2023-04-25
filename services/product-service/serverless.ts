@@ -98,7 +98,7 @@ const serverlessConfiguration: AWS = {
       createProductTopicEmailSubscription: {
           Type: "AWS::SNS::Subscription",
           Properties: {
-            Endpoint: 'victoria.cs50@tut.by',
+            Endpoint: `${process.env.SNS_SUB_EMAIL}`,
             Protocol: 'email',
             TopicArn: 'arn:aws:sns:us-east-1:149435355961:createProductTopic',
             FilterPolicyScope: "MessageAttributes",
@@ -110,7 +110,7 @@ const serverlessConfiguration: AWS = {
       createFreeProductTopicEmailSubscription: {
         Type: "AWS::SNS::Subscription",
         Properties: {
-          Endpoint: 'victoria-butrym@tut.by',
+          Endpoint: `${process.env.SNS_FREE_PRODUCT_SUB_EMAIL}`,
           Protocol: 'email',
           TopicArn: 'arn:aws:sns:us-east-1:149435355961:createProductTopic',
           FilterPolicyScope: "MessageAttributes",

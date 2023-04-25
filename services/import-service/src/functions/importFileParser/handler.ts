@@ -21,12 +21,12 @@ const importFileParser: ValidatedEventAPIGatewayProxyEvent<typeof schema> = asyn
           MessageBody: JSON.stringify(data),
         },
         (error, data) => {
-                  if (error) {
-                    console.log('ERROR 3----', error)
-                  } else {
-                    console.log('DATA SENT 3----', data)
-                  }
-                }
+            if (error) {
+              console.log('----ERROR----', error)
+            } else {
+              console.log('---DATA SENT----', data)
+            }
+          }
         ).promise();;
     }
 
