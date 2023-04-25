@@ -27,6 +27,8 @@ const serverlessConfiguration: AWS = {
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       DB_PRODUCTS_TABLE: `${process.env.DB_PRODUCTS_TABLE}`,
       DB_STOCKS_TABLE: `${process.env.DB_STOCKS_TABLE}`,
+      SNS_CREATE_PRODUCT_TOPIC: `${process.env.SNS_CREATE_PRODUCT_TOPIC}`,
+      SNS_REGION: `${process.env.SNS_REQION}`
     },
     profile: 'sandx',
     iam: {
@@ -36,6 +38,11 @@ const serverlessConfiguration: AWS = {
             Effect: "Allow",
             Action: "sqs:*",
             Resource: "arn:aws:sqs:us-east-1:149435355961:catalogItemsQueue"
+          },
+          {
+            Effect: "Allow",
+            Action: "sns:*",
+            Resource: "arn:aws:sns:us-east-1:149435355961:createProductTopic"
           },
           {
             Effect: 'Allow',
@@ -82,6 +89,36 @@ const serverlessConfiguration: AWS = {
           QueueName: 'catalogItemsQueue'
         }
       },
+      createProductTopic: {
+          Type: "AWS::SNS::Topic",
+          Properties: {
+            TopicName: 'createProductTopic'
+          }
+      },
+      createProductTopicEmailSubscription: {
+          Type: "AWS::SNS::Subscription",
+          Properties: {
+            Endpoint: 'victoria.cs50@tut.by',
+            Protocol: 'email',
+            TopicArn: 'arn:aws:sns:us-east-1:149435355961:createProductTopic',
+            FilterPolicyScope: "MessageAttributes",
+              FilterPolicy: {
+                price: [{ numeric: [">", 0] }],
+              },
+          }
+      },
+      createFreeProductTopicEmailSubscription: {
+        Type: "AWS::SNS::Subscription",
+        Properties: {
+          Endpoint: 'victoria-butrym@tut.by',
+          Protocol: 'email',
+          TopicArn: 'arn:aws:sns:us-east-1:149435355961:createProductTopic',
+          FilterPolicyScope: "MessageAttributes",
+            FilterPolicy: {
+              price: [{ numeric: ["=", 0] }],
+            },
+        }
+    },
       productsTable: {
         Type: "AWS::DynamoDB::Table",
         Properties: {
