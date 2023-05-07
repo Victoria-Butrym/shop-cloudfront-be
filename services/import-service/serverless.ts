@@ -28,6 +28,14 @@ const serverlessConfiguration: AWS = {
       SQS_PRODUCT_QUEUE: `${process.env.SQS_PRODUCT_QUEUE}`,
       SQS_REGION: `${process.env.SQS_REGION}`
     },
+    httpApi: {
+      authorizers: {
+        customAuthorizer: {
+          type: "request",
+          functionArn: "arn:aws:lambda:us-east-1:149435355961:function:authorization-service-dev-basicAuthorizer",
+        }
+      }
+    },
     iam: {
       role: {
         statements: [
@@ -68,7 +76,39 @@ const serverlessConfiguration: AWS = {
       platform: 'node',
       concurrency: 10,
     },
-  },
+  },resources: {
+    Resources: {
+      GatewayUnauthorized: {
+        Type: 'AWS::ApiGateway::GatewayResponse',
+        Properties: {
+          ResponseParameters: {
+            'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
+            'gatewayresponse.header.Access-Control-Allow-Headers': "'*'",
+            'gatewayresponse.header.WWW-Authenticate': "'Basic'",
+          },
+          RestApiId: {
+            Ref: 'ApiGatewayRestApi'
+          },
+          ResponseType: 'UNAUTHORIZED',
+          StatusCode: '401'
+        }
+      },
+      GatewayForbidden: {
+        Type: 'AWS::ApiGateway::GatewayResponse',
+        Properties: {
+          ResponseParameters: {
+            'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
+            'gatewayresponse.header.Access-Control-Allow-Headers': "'*'"
+          },
+          RestApiId: {
+            Ref: 'ApiGatewayRestApi'
+          },
+          ResponseType: 'ACCESS_DENIED',
+          StatusCode: '403'
+        }
+      }
+    }
+  }
 };
 
 module.exports = serverlessConfiguration;
