@@ -9,8 +9,8 @@ export default {
         path: 'products',
         responseData: {
           200: {
-            description: 'successful API response',
-            bodyType: 'IProduct'
+            description: 'Successful API response',
+            bodyType: 'IProductStock'
           },
           500: {
             description: 'Internal server error!'

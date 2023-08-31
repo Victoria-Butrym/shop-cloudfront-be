@@ -1,12 +1,38 @@
-import { PRODUCT_LIST } from '../../mocks/products';
-import { IProduct } from '../../interfaces/product.interface';
+import * as AWS from 'aws-sdk';
+import { IProduct, IStock } from 'src/interfaces/product.interface';
 
-const getProductsList = (): Promise<IProduct[]> => Promise.resolve(PRODUCT_LIST);
+const dynamo = new AWS.DynamoDB();
+const dynamoClient = new AWS.DynamoDB.DocumentClient();
 
-const getProductById = (id: string): Promise<IProduct> =>
-    Promise.resolve(PRODUCT_LIST.find((product) => product.id === id) || null);
+const getProductsList = async () => await dynamo
+    .scan({
+        TableName: `${process.env.DB_PRODUCTS_TABLE}`
+    })
+    .promise();
+
+const getProductById = async (id: string) => await dynamoClient
+    .query({
+        TableName: `${process.env.DB_PRODUCTS_TABLE}`,
+        KeyConditionExpression: "id = :id",
+        ExpressionAttributeValues: { ":id": id },
+    })
+    .promise();
+
+const createProduct = async (product: IProduct, stock: IStock) => await dynamoClient
+    .transactWrite({
+        TransactItems: [
+            {
+                Put: { TableName: `${process.env.DB_PRODUCTS_TABLE}`, Item: product },
+            },
+            {
+                Put: { TableName: `${process.env.DB_STOCKS_TABLE}`, Item: stock },
+            },
+        ],
+    })
+    .promise();
 
 export default {
     getProductsList,
-    getProductById
+    getProductById,
+    createProduct
 }

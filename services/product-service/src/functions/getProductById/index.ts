@@ -9,7 +9,7 @@ export default {
         path: 'products/{productId}',
         responseData: {
           200: {
-            description: 'successful API response',
+            description: 'Successful API response',
             bodyType: 'IProduct'
           },
           404: {
